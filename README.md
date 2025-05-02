@@ -19,6 +19,27 @@ O app ainda permite que você escolha qual IA preferida (OpenAI ou HuggingFace) 
 
 # 📚 Tabela de conteúdos
 
+- [🔍 ArXiv WebApp – Explore artigos científicos e sumarize com IA](#-arxiv-webapp--explore-artigos-científicos-e-sumarize-com-ia)
+- [📚 Tabela de conteúdos](#-tabela-de-conteúdos)
+  - [🚀 Acesse agora:](#-acesse-agora)
+  - [✨ O que este app faz?](#-o-que-este-app-faz)
+  - [🧪 Exemplo de uso](#-exemplo-de-uso)
+  - [🧠 Tecnologias usadas](#-tecnologias-usadas)
+  - [⚙️ Para desenvolvedores](#️-para-desenvolvedores)
+  - [🧱 Arquitetura](#-arquitetura)
+  - [🗂️ Estrutura do Projeto](#️-estrutura-do-projeto)
+  - [⚙️ Como usar](#️-como-usar)
+    - [1. Clonar o repositório](#1-clonar-o-repositório)
+    - [2. Backend (FastAPI)](#2-backend-fastapi)
+    - [3. Frontend (Streamlit)](#3-frontend-streamlit)
+  - [🌐 Deploy na nuvem](#-deploy-na-nuvem)
+    - [Backend – Render](#backend--render)
+    - [Frontend – Streamlit Cloud](#frontend--streamlit-cloud)
+  - [🧪 Exemplos de uso](#-exemplos-de-uso)
+  - [🔐 Secrets *(caso queira utilizar localmente)*](#-secrets-caso-queira-utilizar-localmente)
+  - [🤝 Contribuindo](#-contribuindo)
+  - [🧑‍💻 Autor](#-autor)
+
 
 ## 🚀 Acesse agora:
 
