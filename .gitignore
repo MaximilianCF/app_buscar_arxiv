@@ -13,7 +13,6 @@ __pycache__/
 flet_ui/
 logs/
 pdfs_baixados/
-*.md
 *.pdf
 
 # Cache interno
