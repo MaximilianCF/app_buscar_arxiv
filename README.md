@@ -1,0 +1,162 @@
+<div align="left" style="position: relative;">
+<h1>ArXiv WebAPP</h1>
+<p align="left">
+		<img src="https://img.shields.io/github/license/MaximilianCF/app_buscar_arxiv?style=default&logo=opensourceinitiative&logoColor=white&color=0080ff" alt="license">
+		<img  src="https://img.shields.io/github/last-commit/MaximilianCF/app_buscar_arxiv?style=default&logo=git&logoColor=white&color=0080ff"  alt="last-commit">
+		<img  src="https://img.shields.io/github/languages/top/MaximilianCF/app_buscar_arxiv?style=default&color=0080ff"  alt="repo-top-language">
+		<img  src="https://img.shields.io/github/languages/count/MaximilianCF/app_buscar_arxiv?style=default&color=0080ff"  alt="repo-language-count">
+</p>
+</div>
+<br  clear="right">
+
+# 🔍 ArXiv WebApp – Explore artigos científicos e sumarize com IA
+
+**O ArXiv WebApp permite que qualquer pessoa pesquise artigos no arXiv.org e receba resumos automáticos com inteligência artificial (IA).**
+
+O app ainda permite que você escolha qual IA preferida (OpenAI ou HuggingFace) quer usar para elaborar os resumos.
+
+🎯 Ideal para estudantes, pesquisadores, curiosos e desenvolvedores.
+
+# 📚 Tabela de conteúdos
+
+
+## 🚀 Acesse agora:
+
+👉 [Clique aqui para usar o app](https://webapparxiv.streamlit.app)  
+*(Roda diretamente no navegador – sem instalação)*
+
+## ✨ O que este app faz?
+
+1. Você digita um termo de busca (ex: `"transformer language model"`)
+2. O sistema busca os artigos mais relevantes no [arXiv.org](https://arxiv.org)
+3. Cada artigo vem com um **resumo automático** gerado com IA (via OpenAI GPT)
+4. A interface é simples, rápida e 100% online
+
+## 🧪 Exemplo de uso
+
+Digite: `quantum computing`  
+✅ Em segundos, você verá os títulos e resumos inteligentes dos principais artigos sobre o tema.
+
+## 🧠 Tecnologias usadas
+
+|Componente |Tecnologia              |
+|-----------|------------------------|
+|Interface  |Streamlit               |
+|Backend API|FastAPI + Uvicorn       |
+|IA         |OpenAI GPT (via API)    |
+|Hospedagem |Streamlit Cloud + Render|
+
+## ⚙️ Para desenvolvedores
+
+Este projeto é modular e segue a arquitetura descrita abaixo.
+
+
+## 🧱 Arquitetura
+
+    [Usuário]  
+    ↓  
+    [Streamlit App - Frontend. Usuário edita os filtros]  
+    ↓ --> chamada HTTP (requests)  
+    [FastAPI Backend - Render]  
+    ↓  
+    [arXiv + OpenAI]
+
+
+ ## 🗂️ Estrutura do Projeto
+
+arxiv-app/  
+├── app/ _Backend (FastAPI)_
+│ ├── routes/  
+│ │ ├── arxiv.py _Busca artigos no arXiv_
+│ │ └── ia.py _Resumo com IA_
+│ └── main.py _Entrypoint da API_
+├── frontend/ _Frontend (Streamlit)_  
+│ └── arxiv_streamlit.py  
+├── requirements.txt _Requisitos da API_
+├── render.yaml _Configuração para deploy no Render_
+├── README.md
+
+
+
+## ⚙️ Como usar
+
+###  1. Clonar o repositório
+
+    git  clone  https://github.com/seu-usuario/app_buscar_arxiv.git
+    cd  app_buscar_arxiv
+
+### 2. Backend (FastAPI)
+
+
+    pip install -r requirements.txt
+    uvicorn app.main:app --reload 
+
+Endpoints disponíveis em:
+
+`http://localhost:8000/api/arxiv/buscar`
+    
+`http://localhost:8000/api/ia/resumir`
+
+### 3. Frontend (Streamlit)
+
+    cd frontend/
+    streamlit run arxiv_streamlit.py
+
+
+## 🌐 Deploy na nuvem
+
+### Backend – Render
+
+-   Aponte para `main.py` com:
+       
+    `uvicorn app.main:app --host 0.0.0.0 --port 10000`
+   
+-   Adicione `OPENAI_API_KEY` como variável de ambiente
+    
+
+### Frontend – Streamlit Cloud
+
+-   Use o arquivo `frontend/arxiv_streamlit.py`
+    
+-   Atualize os endpoints no código para usar o domínio Render da API:
+    
+    API_ARXIV = "https://arxiv-api.onrender.com/api/arxiv/buscar"
+    API_IA = "https://arxiv-api.onrender.com/api/ia/resumir"
+
+## 🧪 Exemplos de uso
+
+-   Digite o termo “transformer language model”
+    
+-   A aplicação buscará os artigos no arXiv
+    
+-   E usará o GPT para resumi-los automaticamente
+    
+## 🔐 Secrets *(caso queira utilizar localmente)*
+
+No Render:
+
+`OPENAI_API_KEY` → sua chave da OpenAI
+    
+
+No Streamlit:
+
+Use `st.secrets["OPENAI_API_KEY"]` ou crie`.streamlit/secrets.toml`
+    
+
+## 🤝 Contribuindo
+
+Quer sugerir melhorias, adicionar novas fontes científicas ou integrar outras IAs?  
+Pull requests e ideias são bem-vindos!
+
+## 🧑‍💻 Autor
+
+**Maximilian Canez Fernandes**  
+CNPI-T, desenvolvedor e entusiasta de IA aplicada ao conhecimento técnico.
+
+> “I'm sorry Dave, I can't summarize that... unless você me der permissão via JSON.” – HAL 9000
+
+
+
+
+
+
