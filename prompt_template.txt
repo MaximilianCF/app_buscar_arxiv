@@ -1,0 +1,3 @@
+Resuma o seguinte texto de forma objetiva em português:
+
+{{texto}}

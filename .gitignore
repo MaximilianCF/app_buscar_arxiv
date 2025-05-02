@@ -1,0 +1,23 @@
+# Environments
+.venv/
+.arvix/
+.env*
+.idea/
+.vscode/
+
+# Arquivos cache e compilados
+__pycache__/
+*.pyc
+
+# Flet antigo
+flet_ui/
+logs/
+pdfs_baixados/
+*.md
+*.pdf
+
+# Cache interno
+app/cache/
+
+# Arquivos temporários
+diretorio.txt
