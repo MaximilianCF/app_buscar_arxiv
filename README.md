@@ -17,6 +17,7 @@ O app ainda permite que você escolha qual IA preferida (OpenAI ou HuggingFace) 
 
 🎯 Ideal para estudantes, pesquisadores, curiosos e desenvolvedores.
 
+
 # 📚 Tabela de conteúdos
 
 - [🔍 ArXiv WebApp – Explore artigos científicos e sumarize com IA](#-arxiv-webapp--explore-artigos-científicos-e-sumarize-com-ia)
