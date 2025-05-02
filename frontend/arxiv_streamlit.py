@@ -1,4 +1,3 @@
-
 import streamlit as st
 import requests
 from datetime import datetime
@@ -8,6 +7,12 @@ API_IA = "https://webapparxiv.onrender.com/api/ia/resumir"
 
 st.set_page_config(page_title="ArXiv com IA", layout="wide")
 st.title("📚 ArXiv + IA WebApp")
+
+# Inicializa session_state
+if "resultados" not in st.session_state:
+    st.session_state.resultados = []
+if "resumos" not in st.session_state:
+    st.session_state.resumos = {}
 
 # Inputs
 with st.form("form_busca"):
@@ -27,6 +32,7 @@ api_key = st.text_input("🔑 API Key OpenAI", type="password")
 modelo = st.selectbox("Modelo IA", ["gpt-3.5-turbo", "gpt-4"], index=0)
 max_tokens = st.slider("Tokens para resumo", min_value=100, max_value=2048, value=600)
 
+# Buscar artigos
 if submitted:
     payload = {
         "tema": termo,
@@ -44,26 +50,35 @@ if submitted:
 
     if data["dados"]:
         st.success(f"✅ {len(data['dados'])} artigos encontrados ({data['origem']})")
-        for i, artigo in enumerate(data["dados"]):
-            with st.expander(f"📄 {artigo['titulo']}", expanded=False):
-                st.markdown(f"**Autores**: {', '.join(artigo['autores'])}")
-                st.markdown(f"**Publicado em**: {artigo['data']}")
-                st.markdown(f"[🔗 PDF Oficial]({artigo['pdf']})")
-                st.markdown("**Resumo Original:**")
-                st.code(artigo["resumo"][:500] + "...", language="markdown")
-
-                if st.button(f"🤖 Resumir com IA", key=f"res_{i}"):
-                    with st.spinner("Gerando resumo..."):
-                        r = requests.post(API_IA, json={
-                            "texto": artigo["resumo"],
-                            "fonte": "openai",
-                            "modelo": modelo,
-                            "api_key": api_key,
-                            "max_tokens": max_tokens
-                        })
-                        resumo = r.json()
-                        st.markdown(f"**Resumo IA:**")
-                        st.success(resumo["resumo_gerado"])
-                        st.info(f"📊 {resumo['tokens']} tokens | 💵 ${resumo['usd']} ≈ R${resumo['brl']}")
+        st.session_state.resultados = data["dados"]
+        st.session_state.resumos = {}  # limpa resumos antigos
     else:
         st.warning("⚠️ Nenhum artigo encontrado.")
+        st.session_state.resultados = []
+
+# Mostrar resultados
+for i, artigo in enumerate(st.session_state.resultados):
+    with st.expander(f"📄 {artigo['titulo']}", expanded=False):
+        st.markdown(f"**Autores**: {', '.join(artigo['autores'])}")
+        st.markdown(f"**Publicado em**: {artigo['data']}")
+        st.markdown(f"[🔗 PDF Oficial]({artigo['pdf']})")
+        st.markdown("**Resumo Original:**")
+        st.code(artigo["resumo"][:500] + "...", language="markdown")
+
+        if st.button(f"🤖 Resumir com IA", key=f"res_{i}"):
+            with st.spinner("Gerando resumo..."):
+                r = requests.post(API_IA, json={
+                    "texto": artigo["resumo"],
+                    "fonte": "openai",
+                    "modelo": modelo,
+                    "api_key": api_key,
+                    "max_tokens": max_tokens
+                })
+                resumo = r.json()
+                st.session_state.resumos[i] = resumo
+
+        if i in st.session_state.resumos:
+            resumo = st.session_state.resumos[i]
+            st.markdown("**Resumo IA:**")
+            st.success(resumo["resumo_gerado"])
+            st.info(f"📊 {resumo['tokens']} tokens | 💵 ${resumo['usd']} ≈ R${resumo['brl']}")
