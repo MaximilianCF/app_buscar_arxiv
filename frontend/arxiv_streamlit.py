@@ -3,7 +3,7 @@ import streamlit as st
 import requests
 from datetime import datetime
 
-API_ARXIV = "http://webapparxiv.streamlit.app/api/arxiv/buscar"
+API_ARXIV = "https://webapparxiv.onrender.app/api/arxiv/buscar"
 API_IA = "http://webapparxiv.streamlit.app/api/ia/resumir"
 
 st.set_page_config(page_title="ArXiv com IA", layout="wide")
