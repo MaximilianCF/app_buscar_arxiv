@@ -1,3 +1,4 @@
+
 import streamlit as st
 import requests
 from datetime import datetime
@@ -8,13 +9,21 @@ API_IA = "https://webapparxiv.onrender.com/api/ia/resumir"
 st.set_page_config(page_title="ArXiv com IA", layout="wide")
 st.title("📚 ArXiv + IA WebApp")
 
-# Inicializa session_state
+@st.cache_data(ttl=3600)
+def get_usd_to_brl():
+    try:
+        resp = requests.get("https://economia.awesomeapi.com.br/json/last/USD-BRL")
+        if resp.status_code == 200:
+            return float(resp.json()["USDBRL"]["bid"])
+    except:
+        pass
+    return 5.50
+
 if "resultados" not in st.session_state:
     st.session_state.resultados = []
 if "resumos" not in st.session_state:
     st.session_state.resumos = {}
 
-# Inputs
 with st.form("form_busca"):
     col1, col2, col3, col4 = st.columns([3, 1, 1, 2])
     with col1:
@@ -27,12 +36,10 @@ with st.form("form_busca"):
         categoria = st.selectbox("Categoria arXiv", ["cs.AI", "cs.LG", "stat.ML", "econ.EM", "q-fin.MF", "math.ST"])
     submitted = st.form_submit_button("Buscar Artigos")
 
-# IA settings
 api_key = st.text_input("🔑 API Key OpenAI", type="password")
 modelo = st.selectbox("Modelo IA", ["gpt-3.5-turbo", "gpt-4"], index=0)
 max_tokens = st.slider("Tokens para resumo", min_value=100, max_value=2048, value=600)
 
-# Buscar artigos
 if submitted:
     payload = {
         "tema": termo,
@@ -51,12 +58,11 @@ if submitted:
     if data["dados"]:
         st.success(f"✅ {len(data['dados'])} artigos encontrados ({data['origem']})")
         st.session_state.resultados = data["dados"]
-        st.session_state.resumos = {}  # limpa resumos antigos
+        st.session_state.resumos = {}
     else:
         st.warning("⚠️ Nenhum artigo encontrado.")
         st.session_state.resultados = []
 
-# Mostrar resultados
 for i, artigo in enumerate(st.session_state.resultados):
     with st.expander(f"📄 {artigo['titulo']}", expanded=False):
         st.markdown(f"**Autores**: {', '.join(artigo['autores'])}")
@@ -79,6 +85,21 @@ for i, artigo in enumerate(st.session_state.resultados):
 
         if i in st.session_state.resumos:
             resumo = st.session_state.resumos[i]
-            st.markdown("**Resumo IA:**")
-            st.success(resumo["resumo_gerado"])
-            st.info(f"📊 {resumo['tokens']} tokens | 💵 ${resumo['usd']} ≈ R${resumo['brl']}")
+            cotacao = get_usd_to_brl()
+            usd = resumo['usd']
+            brl = usd * cotacao
+            tokens = resumo['tokens']
+
+            st.markdown(
+                f'''
+                <div style='background-color:#0e1117;padding:10px;border-radius:8px;color:#eee'>
+                    <b>Tokens usados:</b> {tokens}<br>
+                    <b>Custo (USD):</b> ${usd:.6f}<br>
+                    <b>Custo estimado (BRL):</b> R${brl:.4f}<br>
+                    <span style="font-size:0.8em; color:#bbb">
+                    Cotação usada: 1 USD ≈ R${cotacao:.2f} (AwesomeAPI)
+                    </span>
+                </div>
+                ''',
+                unsafe_allow_html=True
+            )
