@@ -85,18 +85,19 @@ Este projeto é modular e segue a arquitetura descrita abaixo.
 
  ## 🗂️ Estrutura do Projeto
 
-arxiv-app/  
-├── app/ _Backend (FastAPI)_
-│ ├── routes/  
-│ │ ├── arxiv.py _Busca artigos no arXiv_
-│ │ └── ia.py _Resumo com IA_
-│ └── main.py _Entrypoint da API_
-├── frontend/ _Frontend (Streamlit)_  
-│ └── arxiv_streamlit.py  
-├── requirements.txt _Requisitos da API_
-├── render.yaml _Configuração para deploy no Render_
+```bash
+arxiv-app/
+├── app/                      # Backend (FastAPI)
+│   ├── routes/
+│   │   ├── arxiv.py          # Busca artigos no arXiv
+│   │   └── ia.py             # Resumo com IA
+│   └── main.py               # Entrypoint da API
+├── frontend/                 # Frontend (Streamlit)
+│   └── arxiv_streamlit.py
+├── requirements.txt          # Requisitos da API
+├── render.yaml               # Configuração para deploy no Render
 ├── README.md
-
+```
 
 
 ## ⚙️ Como usar
